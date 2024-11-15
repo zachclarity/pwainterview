@@ -8,8 +8,7 @@ function App() {
     // Default data to show initially
     const defaultUsers = [
         { id: 1, name: 'John Doe', role: 'Software Engineer' },
-        { id: 2, name: 'Jane Smith', role: 'Product Manager' },
-        { id: 3, name: 'Samuel Lee', role: 'Designer' },
+    
     ];
 
     // State to manage users, loading, and error
