@@ -1,6 +1,6 @@
 // src/App.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Grid, Card, CardContent, Typography, Button, CircularProgress } from '@mui/material';
 
@@ -8,12 +8,10 @@ function App() {
     // Default data to show initially
     const defaultUsers = [
         { id: 1, name: 'John Doe', role: 'Software Engineer' },
-        { id: 2, name: 'Jane Smith', role: 'Product Manager' },
-        { id: 3, name: 'Samuel Lee', role: 'Designer' },
     ];
 
     // State to manage users, loading, and error
-    const [users, setUsers] = useState(defaultUsers);
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -23,8 +21,31 @@ function App() {
         setError(null); // Reset any previous errors
 
         // Fetch data from backend API
-        // TBD
+        axios
+            .get('http://localhost:5000/api/users')
+            .then((response) => {
+                const fetchedData = response.data;
+                setUsers(fetchedData); // Update state with the fetched data
+                localStorage.setItem('users', JSON.stringify(fetchedData)); // Save data to localStorage
+                setLoading(false); // Set loading to false after fetching
+            })
+            .catch((err) => {
+                setError('Failed to fetch data');
+                setLoading(false); // Set loading to false even if there's an error
+            });
     };
+
+    // Check if data is in localStorage and load it
+    useEffect(() => {
+        const storedData = localStorage.getItem('users');
+        if (storedData) {
+            // If data exists in localStorage, load it into state
+            setUsers(JSON.parse(storedData));
+        } else {
+            // If no data in localStorage, show default data initially
+            setUsers(defaultUsers);
+        }
+    }, []);
 
     return (
         <Container>

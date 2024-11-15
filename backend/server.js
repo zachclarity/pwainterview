@@ -11,13 +11,15 @@ app.use(cors());
 
 // Example data to send to the frontend
 const data = [
-    { id: 1, name: 'John Doe', role: 'Software Engineer' },
+    { id: 4, name: 'MAry Lamb', role: 'UX Engineer' },
     { id: 2, name: 'Jane Smith', role: 'Product Manager' },
     { id: 3, name: 'Samuel Lee', role: 'Designer' },
 ];
 
 // Route to fetch data
-// TBD ...
+app.get('/api/users', (req, res) => {
+    res.json(data);
+});
 
 // Start the server
 app.listen(port, () => {
